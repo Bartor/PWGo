@@ -8,7 +8,7 @@ import (
 type Ceo struct {
 	LoLimit int
 	HiLimit int
-	Tasks   chan Task
+	Tasks   chan<- Task
 }
 
 func (ceo *Ceo) newTask() {
@@ -17,8 +17,9 @@ func (ceo *Ceo) newTask() {
 }
 
 func (ceo *Ceo) Start() {
+	println("starting ceo")
 	for {
-		time.Sleep(time.Duration(rand.Int()%ceo.HiLimit + ceo.LoLimit))
+		time.Sleep(time.Duration(rand.Int()%ceo.HiLimit+ceo.LoLimit) * time.Second)
 		ceo.newTask()
 	}
 }

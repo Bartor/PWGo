@@ -4,13 +4,14 @@ import "time"
 
 type Worker struct {
 	Delay   int
-	Tasks   chan Task
-	Results chan int
+	Tasks   <-chan Task
+	Results chan<- int
 }
 
 func (worker *Worker) Start() {
+	println("starting worker")
 	for {
-		time.Sleep(time.Duration(worker.Delay))
+		time.Sleep(time.Duration(worker.Delay) * time.Second)
 		t := <-worker.Tasks
 		if r, e := t.ResolveTask(); e != nil {
 			worker.Results <- r
