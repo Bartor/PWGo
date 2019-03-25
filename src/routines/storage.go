@@ -19,7 +19,7 @@ func Tasks(verbose bool, limit int, requests chan chan Task, new <-chan Task, st
 		case task := <-new:
 			if len(taskList) >= limit {
 				if verbose {
-					fmt.Println("task storage is full")
+					fmt.Println("TASK STORAGE IS FULL")
 				}
 			} else {
 				taskList = append(taskList, task)

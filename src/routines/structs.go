@@ -1,6 +1,9 @@
 package routines
 
-import "errors"
+import (
+	"errors"
+	"strconv"
+)
 
 type Item struct {
 	Value int
@@ -21,9 +24,9 @@ func (t *Task) ResolveTask() (int, error) {
 }
 
 func (t Task) String() string {
-	return "Task {" + string(t.Fst) + ", " + string(t.Snd) + "}"
+	return "Task {" + strconv.Itoa(t.Fst) + ", " + strconv.Itoa(t.Snd) + "}"
 }
 
 func (i Item) String() string {
-	return "Item {" + string(i.Value) + "}"
+	return "Item {" + strconv.Itoa(i.Value) + "}"
 }

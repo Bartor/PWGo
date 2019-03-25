@@ -2,6 +2,7 @@ package routines
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -15,7 +16,7 @@ func Client(id int, verbose bool, offers chan chan Item, delay time.Duration) {
 			continue
 		} else {
 			if verbose {
-				fmt.Println("client " + string(id) + " bought " + string(res.Value))
+				fmt.Println("==[CLI " + strconv.Itoa(id) + "] bought " + strconv.Itoa(res.Value))
 			}
 		}
 

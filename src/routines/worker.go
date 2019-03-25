@@ -2,6 +2,7 @@ package routines
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -11,12 +12,12 @@ func Worker(id int, verbose bool, tasks chan chan Task, results chan<- Item, del
 		tasks <- req
 		var res = <-req
 
-		if result, e := res.ResolveTask(); e == nil {
+		if result, e := res.ResolveTask(); e != nil {
 			continue
 		} else {
 			results <- Item{Value: result}
 			if verbose {
-				fmt.Println("worker " + string(id) + " resolved a task and sends " + string(result))
+				fmt.Println("=[WOR " + strconv.Itoa(id) + "] resolved a task and sends " + strconv.Itoa(result))
 			}
 		}
 

@@ -24,7 +24,7 @@ func Ceo(verbose bool, taskList chan Task, lo time.Duration, hi time.Duration) {
 		var task = newTask()
 		taskList <- task
 		if verbose {
-			fmt.Println("ceo added a new task " + task.String())
+			fmt.Println("===[CEO] added a new task " + task.String())
 		}
 
 		var delay = time.Duration(rand.Int()%int(lo) + int(hi))
