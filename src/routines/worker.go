@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-func Worker(id int, verbose bool, tasks chan<- GetRequestTask, results chan<- Item, delay time.Duration) {
+func Worker(id int, verbose bool, tasks chan<- chan Task, results chan<- Item, delay time.Duration) {
 	for {
-		var req = GetRequestTask{Response: make(chan Task)}
+		var req = make(chan Task)
 		tasks <- req
-		var res = <-req.Response
+		var res = <-req
 
 		if result, e := res.ResolveTask(); e == nil {
 			continue

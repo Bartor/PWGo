@@ -2,15 +2,15 @@ package routines
 
 import "fmt"
 
-func Tasks(verbose bool, limit int, requests <-chan GetRequestTask, new <-chan Task, state <-chan interface{}) {
+func Tasks(verbose bool, limit int, requests <-chan chan Task, new <-chan Task, state <-chan interface{}) {
 	var taskList = make([]Task, 0)
 	for {
 		select {
 		case req := <-requests:
 			if len(taskList) != 0 {
-				req.Response <- Task{}
+				req <- Task{}
 			} else {
-				req.Response <- taskList[0]
+				req <- taskList[0]
 				if verbose {
 					fmt.Println("task " + taskList[0].String() + " is given to a worker")
 				}
@@ -30,15 +30,15 @@ func Tasks(verbose bool, limit int, requests <-chan GetRequestTask, new <-chan T
 	}
 }
 
-func Items(verbose bool, limit int, requests <-chan GetRequestItem, new <-chan Item, state <-chan interface{}) {
+func Items(verbose bool, limit int, requests <-chan chan Item, new <-chan Item, state <-chan interface{}) {
 	var itemList = make([]Item, 0)
 	for {
 		select {
 		case req := <-requests:
 			if len(itemList) != 0 {
-				req.Response <- Item{}
+				req <- Item{}
 			} else {
-				req.Response <- itemList[0]
+				req <- itemList[0]
 				if verbose {
 					fmt.Println("task " + itemList[0].String() + " is given to a worker")
 				}

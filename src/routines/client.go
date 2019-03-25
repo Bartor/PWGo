@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-func Client(id int, verbose bool, offers chan<- GetRequestItem, delay time.Duration) {
+func Client(id int, verbose bool, offers chan<- chan Item, delay time.Duration) {
 	for {
-		var req = GetRequestItem{Response: make(chan Item)}
+		var req = make(chan Item)
 		offers <- req
-		var res = <-req.Response
+		var res = <-req
 
 		if res == (Item{}) {
 			continue
