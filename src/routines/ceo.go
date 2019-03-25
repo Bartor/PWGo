@@ -19,7 +19,7 @@ func newTask() Task {
 	}
 }
 
-func Ceo(verbose bool, taskList chan<- Task, delay time.Duration) {
+func Ceo(verbose bool, taskList chan<- Task, lo time.Duration, hi time.Duration) {
 	for {
 		var task = newTask()
 		taskList <- task
@@ -27,6 +27,7 @@ func Ceo(verbose bool, taskList chan<- Task, delay time.Duration) {
 			fmt.Println("ceo added a new task " + task.String())
 		}
 
+		var delay = time.Duration(rand.Int()%int(lo) + int(hi))
 		time.Sleep(delay)
 	}
 }
