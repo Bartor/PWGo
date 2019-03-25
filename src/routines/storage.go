@@ -7,7 +7,7 @@ func Tasks(verbose bool, limit int, requests chan chan Task, new <-chan Task, st
 	for {
 		select {
 		case req := <-requests:
-			if len(taskList) != 0 {
+			if len(taskList) == 0 {
 				req <- Task{}
 			} else {
 				req <- taskList[0]
@@ -35,7 +35,7 @@ func Items(verbose bool, limit int, requests chan chan Item, new <-chan Item, st
 	for {
 		select {
 		case req := <-requests:
-			if len(itemList) != 0 {
+			if len(itemList) == 0 {
 				req <- Item{}
 			} else {
 				req <- itemList[0]
