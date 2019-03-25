@@ -2,7 +2,7 @@ package routines
 
 import "fmt"
 
-func Tasks(verbose bool, limit int, requests <-chan chan Task, new <-chan Task, state <-chan interface{}) {
+func Tasks(verbose bool, limit int, requests chan chan Task, new <-chan Task, state <-chan interface{}) {
 	var taskList = make([]Task, 0)
 	for {
 		select {
@@ -30,7 +30,7 @@ func Tasks(verbose bool, limit int, requests <-chan chan Task, new <-chan Task, 
 	}
 }
 
-func Items(verbose bool, limit int, requests <-chan chan Item, new <-chan Item, state <-chan interface{}) {
+func Items(verbose bool, limit int, requests chan chan Item, new <-chan Item, state <-chan interface{}) {
 	var itemList = make([]Item, 0)
 	for {
 		select {

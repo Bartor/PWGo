@@ -19,7 +19,7 @@ func newTask() Task {
 	}
 }
 
-func Ceo(verbose bool, taskList chan<- Task, lo time.Duration, hi time.Duration) {
+func Ceo(verbose bool, taskList chan Task, lo time.Duration, hi time.Duration) {
 	for {
 		var task = newTask()
 		taskList <- task

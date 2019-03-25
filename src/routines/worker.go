@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func Worker(id int, verbose bool, tasks chan<- chan Task, results chan<- Item, delay time.Duration) {
+func Worker(id int, verbose bool, tasks chan chan Task, results chan<- Item, delay time.Duration) {
 	for {
 		var req = make(chan Task)
 		tasks <- req
