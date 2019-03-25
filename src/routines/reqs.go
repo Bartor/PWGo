@@ -1,9 +1,9 @@
 package routines
 
 type GetRequestTask struct {
-	Response <-chan Task
+	Response chan Task
 }
 
 type GetRequestItem struct {
-	Response <-chan Item
+	Response chan Item
 }
