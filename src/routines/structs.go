@@ -20,6 +20,10 @@ func (t *Task) ResolveTask() (int, error) {
 	}
 }
 
-func (t *Task) String() string {
+func (t Task) String() string {
 	return "Task {" + string(t.Fst) + ", " + string(t.Snd) + "}"
+}
+
+func (i Item) String() string {
+	return "Item {" + string(i.Value) + "}"
 }
