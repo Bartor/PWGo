@@ -30,5 +30,20 @@ func main() {
 
 	if conf.Verbose {
 		fmt.Scanln()
+	} else {
+		for {
+			var line string
+			fmt.Scanln(&line)
+			switch line {
+			case "t":
+				taskListState <- true
+			case "i":
+				itemListState <- true
+			case "h":
+				fmt.Println("t - tasks list\ni - item list")
+			default:
+				fmt.Println("for help, type h")
+			}
+		}
 	}
 }
