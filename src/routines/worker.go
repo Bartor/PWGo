@@ -13,6 +13,7 @@ func Worker(id int, verbose bool, tasks chan chan Task, results chan<- Item, del
 		var res = <-req
 
 		if result, e := res.ResolveTask(); e != nil {
+			//this shouldn't happen now
 			continue
 		} else {
 			results <- Item{Value: result}

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"conf"
+	"PWGo/src/conf"
+	"PWGo/src/routines"
 	"fmt"
-	"routines"
 )
 
 func main() {

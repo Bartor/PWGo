@@ -2,8 +2,8 @@ package conf
 
 import "time"
 
-const Verbose = false
-const DelayWorker = 5 * time.Second
+const Verbose = true
+const DelayWorker = 100 * time.Millisecond
 const DelayClient = 5 * time.Second
 const TaskListSize = 10
 const ItemListSize = 10
