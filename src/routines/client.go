@@ -11,6 +11,7 @@ func Client(id int, verbose bool, offers chan chan Item, delay time.Duration) {
 		var req = make(chan Item)
 		offers <- req
 		var res = <-req
+		close(req)
 
 		if res == (Item{}) {
 			continue

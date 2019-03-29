@@ -11,6 +11,7 @@ func Worker(id int, verbose bool, tasks chan chan Task, results chan<- Item, del
 		var req = make(chan Task)
 		tasks <- req
 		var res = <-req
+		close(req)
 
 		if result, e := res.ResolveTask(); e != nil {
 			//this shouldn't happen now
