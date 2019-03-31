@@ -1,5 +1,5 @@
 # Programowanie Współbieżne
-Kurs prowadzony przez dr Kika. Kolejne zadania są rozwinięciami pierwszego, więc jest to jedyne repozytorium z tego kursu w tym języku. Równolegle ten sam projekt jest realizowany w Adzie.
+Kurs prowadzony przez dr Kika. Kolejne zadania są rozwinięciami pierwszego, więc jest to jedyne repozytorium z tego kursu w tym języku. Równolegle ten sam projekt jest realizowany w [Adzie](https://github.com/Bartor/PWAda).
 ## Etapy
 Kolejne etapy projektu realizowanego w ramach kursu opisane są tutaj:
 1. Stan początkowy (w trakcie)
