@@ -1,9 +1,9 @@
 package main
 
 import (
-	"PWGo/src/conf"
-	"PWGo/src/routines"
+	"conf"
 	"fmt"
+	"routines"
 )
 
 func main() {
@@ -15,8 +15,8 @@ func main() {
 	var workersToItemList = make(chan routines.Item)
 	var itemListToClients = make(chan chan routines.Item)
 
-	go routines.Tasks(conf.Verbose, conf.TaskListSize, taskListToWorkers, ceoToTaskList, taskListState)
-	go routines.Items(conf.Verbose, conf.ItemListSize, itemListToClients, workersToItemList, itemListState)
+	go routines.Tasks(conf.TaskListSize, ceoToTaskList, taskListToWorkers, taskListState)
+	go routines.Items(conf.ItemListSize, workersToItemList, itemListToClients, itemListState)
 
 	for i := 0; i < conf.Workers; i++ {
 		go routines.Worker(i, conf.Verbose, taskListToWorkers, workersToItemList, conf.DelayWorker)
