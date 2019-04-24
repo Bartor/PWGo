@@ -9,6 +9,7 @@ type WorkerConfig struct {
 	Id      int
 	Verbose bool
 	Delay   time.Duration
+	Timeout time.Duration
 	Patient bool
 }
 

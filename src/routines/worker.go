@@ -6,22 +6,30 @@ import (
 	"time"
 )
 
-//todo add machines
-func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, state <-chan interface{}) {
+func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, state <-chan interface{}, machines []chan Task) {
 	var tasksDone = 0
 	for {
 		var req = make(chan Task)
 		tasks <- req
 		select {
-		case res := <-req:
-			if result, e := res.ResolveTask(); e != nil {
-				//this shouldn't happen now
-				continue
-			} else {
-				results <- Item{Value: result}
-				tasksDone++
-				if config.Verbose {
-					fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] : " + strconv.Itoa(tasksDone))
+		case task := <-req:
+			var machineIdx = 0
+
+		MachineLoop:
+			for {
+				var machineChannel = machines[machineIdx]
+
+				select {
+				case machineChannel <- task:
+					res := <-machineChannel
+					results <- Item{Value: res.Res}
+					tasksDone = (tasksDone + 1) % len(machines)
+					if config.Verbose {
+						fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] : " + strconv.Itoa(tasksDone))
+					}
+					break MachineLoop
+				case <-time.After(config.Timeout):
+					machineIdx++
 				}
 			}
 
