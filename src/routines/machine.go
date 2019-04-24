@@ -6,14 +6,19 @@ import (
 	"time"
 )
 
-func Machine(config MachineConfig, tasks chan Task) {
+func Machine(config MachineConfig, tasks chan chan Task) {
 	for {
-		t := <-tasks
-		t.ResolveTask()
-		time.Sleep(config.Delay)
-		if config.Verbose {
-			fmt.Println("~[MCH " + strconv.Itoa(config.Id) + "] finished a task")
+		channel := <-tasks
+		select {
+		case task := <-channel:
+			task.ResolveTask()
+			time.Sleep(config.Delay)
+			if config.Verbose {
+				fmt.Println("~[MCH " + strconv.Itoa(config.Id) + "] finished a task")
+			}
+			channel <- task
+		default:
+			fmt.Println("xD")
 		}
-		tasks <- t
 	}
 }

@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, state <-chan interface{}, machines []chan Task) {
+func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, state <-chan interface{}, machines []chan chan Task) {
 	var tasksDone = 0
 	for {
 		var req = make(chan Task)
@@ -18,15 +18,18 @@ func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, stat
 		MachineLoop:
 			for {
 				var machineChannel = machines[machineIdx]
+				var channel = make(chan Task)
 
 				select {
-				case machineChannel <- task:
-					res := <-machineChannel
+				case machineChannel <- channel:
+					channel <- task
+					res := <-channel
 					results <- Item{Value: res.Res}
 					tasksDone = (tasksDone + 1) % len(machines)
 					if config.Verbose {
 						fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] : " + strconv.Itoa(tasksDone))
 					}
+					close(channel)
 					break MachineLoop
 				case <-time.After(config.Timeout):
 					machineIdx++
