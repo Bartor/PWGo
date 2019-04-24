@@ -13,7 +13,7 @@ func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, stat
 		tasks <- req
 		select {
 		case task := <-req:
-			var machineIdx = 0
+			var machineIdx = config.Id % len(machines)
 
 		MachineLoop:
 			for {
@@ -25,14 +25,17 @@ func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, stat
 					channel <- task
 					res := <-channel
 					results <- Item{Value: res.Res}
-					tasksDone = (tasksDone + 1) % len(machines)
+					tasksDone++
 					if config.Verbose {
-						fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] : " + strconv.Itoa(tasksDone))
+						fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] did his " + strconv.Itoa(tasksDone) + "# task")
 					}
 					close(channel)
 					break MachineLoop
 				case <-time.After(config.Timeout):
-					machineIdx++
+					if config.Verbose {
+						fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] tries next machine")
+					}
+					machineIdx = (machineIdx + 1) % len(machines)
 				}
 			}
 
