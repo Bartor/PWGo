@@ -1,7 +1,6 @@
 package routines
 
 import (
-	"errors"
 	"strconv"
 	"time"
 )
@@ -13,6 +12,12 @@ type WorkerConfig struct {
 	Patient bool
 }
 
+type MachineConfig struct {
+	Id      int
+	Verbose bool
+	Delay   time.Duration
+}
+
 type Item struct {
 	Value int
 }
@@ -21,13 +26,14 @@ type Task struct {
 	Fst int
 	Snd int
 	Opr func(int, int) int
+	Res int
 }
 
-func (t *Task) ResolveTask() (int, error) {
+func (t *Task) ResolveTask() {
 	if t.Opr == nil {
-		return 0, errors.New("no operation")
+		t.Res = 0
 	} else {
-		return t.Opr(t.Fst, t.Snd), nil
+		t.Res = t.Opr(t.Fst, t.Snd)
 	}
 }
 
