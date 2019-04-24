@@ -3,7 +3,15 @@ package routines
 import (
 	"errors"
 	"strconv"
+	"time"
 )
+
+type WorkerConfig struct {
+	Id      int
+	Verbose bool
+	Delay   time.Duration
+	Patient bool
+}
 
 type Item struct {
 	Value int
