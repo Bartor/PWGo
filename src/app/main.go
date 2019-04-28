@@ -5,6 +5,8 @@ import (
 	"PWGo/src/routines"
 	"fmt"
 	"math/rand"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -53,11 +55,17 @@ func main() {
 		for {
 			var line string
 			fmt.Scanln(&line)
-			switch line {
+			var first = strings.Split(line, ":")
+			switch first[0] {
 			case "t":
 				taskListState <- true
 			case "i":
 				itemListState <- true
+			case "s":
+				num, err := strconv.Atoi(first[1])
+				if err == nil {
+					workersStates[num%len(workersStates)] <- true
+				}
 			case "h":
 				fmt.Println("t - tasks list\ni - item list")
 			default:

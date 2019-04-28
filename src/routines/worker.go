@@ -2,6 +2,7 @@ package routines
 
 import (
 	"fmt"
+	"math/rand"
 	"strconv"
 	"time"
 )
@@ -13,7 +14,7 @@ func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, stat
 		tasks <- req
 		select {
 		case task := <-req:
-			var machineIdx = config.Id % len(machines)
+			var machineIdx = rand.Int() % len(machines)
 
 		MachineLoop:
 			for {
