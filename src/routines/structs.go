@@ -17,6 +17,13 @@ type MachineConfig struct {
 	Id      int
 	Verbose bool
 	Delay   time.Duration
+	Prob    float32
+}
+
+type ServiceConfig struct {
+	Repairman int
+	Verbose   bool
+	Delay     time.Duration
 }
 
 type Item struct {
@@ -24,10 +31,11 @@ type Item struct {
 }
 
 type Task struct {
-	Fst int
-	Snd int
-	Opr func(int, int) int
-	Res int
+	Fst    int
+	Snd    int
+	Opr    func(int, int) int
+	Res    int
+	Broken bool
 }
 
 func (t *Task) ResolveTask() {

@@ -13,9 +13,10 @@ func sub(a int, b int) int { return a - b }
 func newTask() Task {
 	var ops = [3]func(int, int) int{add, mul, sub}
 	return Task{
-		Fst: rand.Int(),
-		Snd: rand.Int(),
-		Opr: ops[rand.Int()%3],
+		Fst:    rand.Int(),
+		Snd:    rand.Int(),
+		Opr:    ops[rand.Int()%3],
+		Broken: false,
 	}
 }
 

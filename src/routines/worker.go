@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, state <-chan interface{}, machines []chan chan Task) {
+func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, state <-chan interface{}, machines []chan chan Task, service chan int) {
 	var tasksDone = 0
 	for {
 		var req = make(chan Task)
@@ -25,13 +25,19 @@ func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, stat
 				case machineChannel <- channel:
 					channel <- task
 					res := <-channel
-					results <- Item{Value: res.Res}
-					tasksDone++
-					if config.Verbose {
-						fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] did his " + strconv.Itoa(tasksDone) + "# task")
+					if res.Broken {
+						fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] found broken machine " + strconv.Itoa(machineIdx))
+						service <- machineIdx
+						machineIdx = (machineIdx + 1) % len(machines)
+					} else {
+						results <- Item{Value: res.Res}
+						tasksDone++
+						if config.Verbose {
+							fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] did his " + strconv.Itoa(tasksDone) + "# task")
+						}
+						close(channel)
+						break MachineLoop
 					}
-					close(channel)
-					break MachineLoop
 				case <-time.After(config.Timeout):
 					if config.Verbose {
 						fmt.Println("=[WOR " + strconv.Itoa(config.Id) + "] tries next machine")
