@@ -15,6 +15,7 @@ func Machine(config MachineConfig, tasks chan chan Task, backdoor chan interface
 		case channel := <-tasks:
 			for task := range channel {
 				if working {
+					task.Broken = false
 					task.ResolveTask()
 				} else {
 					task.Broken = true
