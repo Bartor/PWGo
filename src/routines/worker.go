@@ -21,7 +21,6 @@ func Worker(config WorkerConfig, tasks chan chan Task, results chan<- Item, stat
 
 				var machineChannel = machines[machineIdx]
 				var channel = make(chan Task)
-				fmt.Println(strconv.Itoa(machineIdx))
 				select {
 				case machineChannel <- channel:
 					channel <- task

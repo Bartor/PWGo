@@ -14,6 +14,6 @@ const Clients = 5
 const Machines = 10
 const DelayCeoHi = 100 * time.Millisecond
 const DelayCeoLo = 100 * time.Millisecond
-const BreakingProb = 0.05
+const BreakingProb = 0.5
 const Repairman = 2
 const RepairTime = 300 * time.Millisecond
